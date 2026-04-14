@@ -78,6 +78,31 @@ if prediction < 40 and not recommendations:
 
 for rec in recommendations:
     st.write(rec)
+import io
+
+st.subheader("📥 Download Report")
+
+# Create report data
+report_data = pd.DataFrame({
+    "Rainfall": [rainfall],
+    "Temperature": [temperature],
+    "Population": [population],
+    "Water Usage": [water_usage],
+    "Groundwater Level": [groundwater],
+    "Scarcity Index": [round(prediction, 2)],
+    "Scarcity Level": [level]
+})
+
+# Convert to CSV
+csv = report_data.to_csv(index=False)
+
+# Download button
+st.download_button(
+    label="Download Report as CSV",
+    data=csv,
+    file_name="water_scarcity_report.csv",
+    mime="text/csv"
+)
 
 # Show data
 st.subheader("Dataset Preview")
