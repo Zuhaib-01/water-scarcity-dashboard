@@ -21,7 +21,7 @@ st.sidebar.header("Input Parameters")
 rainfall = st.sidebar.slider("Rainfall (mm)", 200, 1500, 800)
 temperature = st.sidebar.slider("Temperature (°C)", 20, 40, 30)
 population = st.sidebar.slider("Population", 100000, 1500000, 800000)
-water_usage = st.sidebar.slider("Water Usage (L/person/day)", 100, 400, 200)
+water_usage = st.sidebar.slider("Water Usage (L/person/day)", 10, 200, 50)
 groundwater = st.sidebar.slider("Groundwater Level (%)", 20, 100, 60)
 
 # Prediction
@@ -47,6 +47,37 @@ else:
 st.subheader("Prediction Result")
 st.metric("Scarcity Index", f"{prediction:.2f}")
 st.write(f"### Scarcity Level: {level}")
+
+st.subheader("💡 Recommendations")
+
+recommendations = []
+
+if rainfall < 600:
+    recommendations.append("🌧️ Increase rainwater harvesting systems")
+
+if groundwater < 50:
+    recommendations.append("💧 Improve groundwater recharge (recharge pits, wells)")
+
+if water_usage > 120:
+    recommendations.append("🚰 Reduce daily water usage and promote conservation")
+
+if population > 1000000:
+    recommendations.append("👥 High population detected — future water demand may increase")
+
+# 🔴 High Scarcity
+if prediction > 70:
+    recommendations.append("🚨 High scarcity risk! Implement strict water management policies")
+
+# 🟡 Medium Scarcity
+elif prediction >= 40:
+    recommendations.append("⚠️ Moderate scarcity — adopt water-saving measures and monitor usage")
+
+# 🟢 Low Scarcity
+if prediction < 40 and not recommendations:
+    recommendations.append("✅ Water conditions are stable. Maintain current usage levels")
+
+for rec in recommendations:
+    st.write(rec)
 
 # Show data
 st.subheader("Dataset Preview")
